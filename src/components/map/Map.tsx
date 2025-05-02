@@ -1,7 +1,6 @@
-/* eslint spellcheck/disable: Sekolah sekolah alamat jumlah murid guru bentuk pendidikan */
 import { useRef, useState, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import L from "leaflet";
+import L, { Map as LeafletMap, LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Sekolah } from "@/types/school";
 import LayerSwitcher, { MAP_LAYERS } from "./LayerSwitcher";
@@ -13,7 +12,7 @@ import RoutingControl, { RouteInfo } from "./RoutingControl";
 import { useLocation } from "@/contexts/LocationContext";
 import LocationPopup from "./LocationPopup";
 
-// Create marker icons after import with proper type assertion
+// Marker Icons
 const defaultIcon = L.icon({
   iconUrl: "/leaflet/marker-icon.png",
   iconRetinaUrl: "/leaflet/marker-icon-2x.png",
@@ -22,7 +21,37 @@ const defaultIcon = L.icon({
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41],
-} as any); // Use 'any' to bypass type checking for icon properties
+} as any);
+
+const iconSD = L.icon({
+  iconUrl: "/marker/marker-icon-blue.png",
+  iconRetinaUrl: "/marker/marker-icon-2x-blue.png",
+  shadowUrl: "/leaflet/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+} as any);
+
+const iconSMP = L.icon({
+  iconUrl: "/marker/marker-icon-green.png",
+  iconRetinaUrl: "/marker/marker-icon-2x-green.png",
+  shadowUrl: "/leaflet/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+} as any);
+
+const iconSMA = L.icon({
+  iconUrl: "/marker/marker-icon-violet.png",
+  iconRetinaUrl: "/marker/marker-icon-2x-violet.png",
+  shadowUrl: "/leaflet/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+} as any);
 
 const redMarkerIcon = L.icon({
   iconUrl: "/marker/marker-icon-red.png",
@@ -32,18 +61,8 @@ const redMarkerIcon = L.icon({
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41],
-} as any); // Use 'any' to bypass type checking for icon properties
+} as any);
 
-// Add location icon for user location marker
-const locationIcon = L.icon({
-  iconUrl: "/marker/location.png",
-  shadowUrl: "/leaflet/marker-shadow.png",
-  iconSize: [32, 32],
-  iconAnchor: [16, 16],
-  popupAnchor: [0, -16],
-} as any); // Use 'any' to bypass type checking for icon properties
-
-// Add origin and destination icons for routing
 const originIcon = L.icon({
   iconUrl: "/marker/marker-icon-green.png",
   iconRetinaUrl: "/marker/marker-icon-2x-green.png",
@@ -54,35 +73,28 @@ const originIcon = L.icon({
   shadowSize: [41, 41],
 } as any);
 
-const destinationIcon = L.icon({
-  iconUrl: "/marker/marker-icon-green.png",
-  iconRetinaUrl: "/marker/marker-icon-2x-green.png",
+const locationIcon = L.icon({
+  iconUrl: "/marker/location.png",
   shadowUrl: "/leaflet/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+  popupAnchor: [0, -16],
 } as any);
 
-// Add MapController component to handle map reference
-function MapController({ map }: { map: L.Map | null }) {
+function MapController({ map }: { map: LeafletMap | null }) {
   const leafletMap = useMap();
-
   useEffect(() => {
-    if (map === null) {
-      leafletMap.setView([3.5952, 98.6722], 13);
-    }
+    if (!map) leafletMap.setView([3.5952, 98.6722], 13);
   }, [map, leafletMap]);
-
   return null;
 }
 
 interface MapProps {
   data: Sekolah[];
-  onMapReady?: (map: L.Map) => void;
-  onUserLocationUpdate?: (location: L.LatLng) => void;
-  routeOrigin?: "user" | string | null; // Changed from number to string
-  routeDestination?: string | null; // Changed from number to string
+  onMapReady?: (map: LeafletMap) => void;
+  onUserLocationUpdate?: (location: LatLng) => void;
+  routeOrigin?: "user" | string | null;
+  routeDestination?: string | null;
   onRouteInfoUpdate?: (routeInfo: RouteInfo | null) => void;
 }
 
@@ -94,34 +106,20 @@ export default function Map({
   routeDestination,
   onRouteInfoUpdate,
 }: MapProps) {
-  // Use type assertion for MapLayerType to fix the useState type issue
   const [mapLayer, setMapLayer] = useState<keyof typeof MAP_LAYERS>("osm");
   const [selectedSchool, setSelectedSchool] = useState<Sekolah | null>(null);
-  const mapRef = useRef<L.Map | null>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
   const { userLocation } = useLocation();
-
-  // Determine if we're in routing mode
   const isRoutingActive = routeOrigin !== null && routeDestination !== null;
 
   useEffect(() => {
-    // Initialize leaflet
-    if (typeof window !== "undefined") {
-      // Set default icon for all markers
-      try {
-        // @ts-ignore - Ignore TypeScript errors for Marker prototype
-        if (L.Marker && L.Marker.prototype && L.Marker.prototype.options) {
-          // @ts-ignore - Ignore TypeScript errors for Marker prototype options
-          L.Marker.prototype.options.icon = defaultIcon;
-        }
-      } catch (e) {
-        console.error("Error setting default marker icon:", e);
-      }
-
-      // Add location found event handler
-      if (mapRef.current && onMapReady) {
-        onMapReady(mapRef.current);
-      }
+    if (typeof window !== "undefined" && mapRef.current && onMapReady) {
+      onMapReady(mapRef.current);
     }
+
+    // ✅ FIXED: safely override marker icon without TS error
+    // @ts-ignore
+    L.Marker.prototype.options.icon = defaultIcon;
   }, [onMapReady]);
 
   const handleSchoolSelect = useCallback((school: Sekolah) => {
@@ -138,46 +136,25 @@ export default function Map({
     }
   }, []);
 
-  // Default center coordinates
-  const defaultCenter: [number, number] = [3.5952, 98.6722];
-
-  // Helper function to extract subdomains if they exist
   const getSubdomains = (
     layer: (typeof MAP_LAYERS)[keyof typeof MAP_LAYERS]
-  ) => {
-    // @ts-ignore - Ignore TypeScript errors for subdomains property
-    return layer.subdomains ? { subdomains: layer.subdomains } : {};
-  };
+  ) => (layer.subdomains ? { subdomains: layer.subdomains } : {});
 
-  // Helper function to determine if a school should be shown
   const shouldShowSchool = (school: Sekolah) => {
-    // If a school is selected, only show that school
-    if (selectedSchool !== null) {
-      return selectedSchool.uuid === school.uuid;
-    }
-
-    // If routing is active, only show origin and destination schools
-    if (isRoutingActive) {
-      return routeOrigin === school.uuid || routeDestination === school.uuid;
-    }
-
-    // Otherwise, show all schools
+    if (selectedSchool) return selectedSchool.uuid === school.uuid;
+    if (isRoutingActive)
+      return school.uuid === routeOrigin || school.uuid === routeDestination;
     return true;
   };
 
-  // Helper function to get the appropriate icon for a school
   const getSchoolIcon = (school: Sekolah) => {
-    if (selectedSchool?.uuid === school.uuid) {
-      return redMarkerIcon;
-    }
+    if (selectedSchool?.uuid === school.uuid) return redMarkerIcon;
+    if (school.uuid === routeOrigin) return originIcon;
+    if (school.uuid === routeDestination) return originIcon;
 
-    if (routeOrigin === school.uuid) {
-      return originIcon;
-    }
-
-    if (routeDestination === school.uuid) {
-      return destinationIcon;
-    }
+    if (school.bentuk_pendidikan?.includes("SD")) return iconSD;
+    if (school.bentuk_pendidikan?.includes("SMP")) return iconSMP;
+    if (school.bentuk_pendidikan?.includes("SMA")) return iconSMA;
 
     return defaultIcon;
   };
@@ -189,50 +166,42 @@ export default function Map({
         onSchoolSelect={handleSchoolSelect}
         onSearchReset={handleSearchReset}
       />
-      {/* @ts-ignore - Ignore TypeScript errors for LayerSwitcher props */}
       <LayerSwitcher
         currentLayer={mapLayer}
-        onLayerChange={(layer: keyof typeof MAP_LAYERS) => setMapLayer(layer)}
+        onLayerChange={(layer: keyof typeof MAP_LAYERS) =>
+          setMapLayer(layer)
+        }
       />
 
       <MapContainer
-        center={defaultCenter}
+        center={[3.5952, 98.6722]}
         zoom={13}
-        scrollWheelZoom={true}
+        scrollWheelZoom
         zoomControl={false}
         style={{ height: "100%", width: "100%" }}
-        className="z-0 [&_.leaflet-popup-content-wrapper]:bg-neutral-900/95 [&_.leaflet-popup-content-wrapper]:backdrop-blur-xl 
-          [&_.leaflet-popup-content-wrapper]:text-white [&_.leaflet-popup-content-wrapper]:shadow-2xl 
-          [&_.leaflet-popup-content-wrapper]:border [&_.leaflet-popup-content-wrapper]:border-neutral-800/50 
-          [&_.leaflet-popup-tip]:bg-neutral-900/95"
+        className="z-0"
         ref={(map) => {
           mapRef.current = map || null;
         }}
       >
         <MapController map={mapRef.current} />
-
-        {/* @ts-ignore - Ignore TypeScript errors for TileLayer props */}
         <TileLayer
           url={MAP_LAYERS[mapLayer].url}
           attribution={MAP_LAYERS[mapLayer].attribution}
           {...getSubdomains(MAP_LAYERS[mapLayer])}
         />
 
-        {data.filter(shouldShowSchool).map((sekolah) => (
+        {data.filter(shouldShowSchool).map((school) => (
           <Marker
-            key={sekolah.uuid}
-            position={[sekolah.lat, sekolah.lng]}
-            icon={getSchoolIcon(sekolah)}
+            key={school.uuid}
+            position={[school.lat, school.lng]}
+            icon={getSchoolIcon(school)}
             eventHandlers={{
-              click: () => {
-                setSelectedSchool(sekolah);
-              },
-              popupclose: () => {
-                setSelectedSchool(null);
-              },
+              click: () => setSelectedSchool(school),
+              popupclose: () => setSelectedSchool(null),
             }}
           >
-            <SchoolPopup school={sekolah} />
+            <SchoolPopup school={school} />
           </Marker>
         ))}
 
@@ -246,27 +215,24 @@ export default function Map({
           onRouteInfoUpdate={onRouteInfoUpdate}
         />
 
-        {userLocation && (!isRoutingActive || routeOrigin === "user") && (
-          <Marker
-            position={userLocation}
-            icon={routeOrigin === "user" ? originIcon : locationIcon}
-          >
-            <LocationPopup location={userLocation} />
-          </Marker>
-        )}
+        {userLocation &&
+          (!isRoutingActive || routeOrigin === "user") && (
+            <Marker
+              position={userLocation}
+              icon={routeOrigin === "user" ? originIcon : locationIcon}
+            >
+              <LocationPopup location={userLocation} />
+            </Marker>
+          )}
       </MapContainer>
 
-      {/* Add styling to fix z-index issues with routing containers */}
       <style jsx global>{`
         .leaflet-routing-container {
           z-index: 999 !important;
         }
-
         .leaflet-routing-container-hide {
           display: none !important;
         }
-
-        /* Ensure the container doesn't create a white box */
         .leaflet-control-container {
           background: transparent !important;
         }
