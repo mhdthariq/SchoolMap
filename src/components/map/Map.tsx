@@ -8,6 +8,7 @@ import LayerSwitcher, { MAP_LAYERS } from "./LayerSwitcher";
 import SchoolPopup from "./SchoolPopup";
 import SchoolSearch from "./SchoolSearch";
 import LocationControl from "./LocationControl";
+import PolygonControl from "./PolygonControl";
 import RoutingControl, { RouteInfo } from "./RoutingControl";
 import { useLocation } from "@/contexts/LocationContext";
 import LocationPopup from "./LocationPopup";
@@ -80,8 +81,8 @@ interface MapProps {
   data: Sekolah[];
   onMapReady?: (map: L.Map) => void;
   onUserLocationUpdate?: (location: L.LatLng) => void;
-  routeOrigin?: "user" | number | null;
-  routeDestination?: number | null;
+  routeOrigin?: "user" | string | null; // Changed from number to string
+  routeDestination?: string | null; // Changed from number to string
   onRouteInfoUpdate?: (routeInfo: RouteInfo | null) => void;
 }
 
@@ -152,12 +153,12 @@ export default function Map({
   const shouldShowSchool = (school: Sekolah) => {
     // If a school is selected, only show that school
     if (selectedSchool !== null) {
-      return selectedSchool.id === school.id;
+      return selectedSchool.uuid === school.uuid;
     }
 
     // If routing is active, only show origin and destination schools
     if (isRoutingActive) {
-      return routeOrigin === school.id || routeDestination === school.id;
+      return routeOrigin === school.uuid || routeDestination === school.uuid;
     }
 
     // Otherwise, show all schools
@@ -166,15 +167,15 @@ export default function Map({
 
   // Helper function to get the appropriate icon for a school
   const getSchoolIcon = (school: Sekolah) => {
-    if (selectedSchool?.id === school.id) {
+    if (selectedSchool?.uuid === school.uuid) {
       return redMarkerIcon;
     }
 
-    if (routeOrigin === school.id) {
+    if (routeOrigin === school.uuid) {
       return originIcon;
     }
 
-    if (routeDestination === school.id) {
+    if (routeDestination === school.uuid) {
       return destinationIcon;
     }
 
@@ -219,7 +220,7 @@ export default function Map({
 
         {data.filter(shouldShowSchool).map((sekolah) => (
           <Marker
-            key={sekolah.id}
+            key={sekolah.uuid}
             position={[sekolah.lat, sekolah.lng]}
             icon={getSchoolIcon(sekolah)}
             eventHandlers={{
@@ -235,6 +236,7 @@ export default function Map({
           </Marker>
         ))}
 
+        <PolygonControl />
         <LocationControl onLocationUpdate={onUserLocationUpdate} />
         <RoutingControl
           userLocation={userLocation}

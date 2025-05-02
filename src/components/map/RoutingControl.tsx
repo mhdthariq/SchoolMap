@@ -7,8 +7,8 @@ import { Sekolah } from "@/types/school";
 interface RoutingControlProps {
   userLocation: L.LatLng | null;
   schools: Sekolah[];
-  origin?: "user" | number | null;
-  destination?: number | null;
+  origin?: "user" | string | null; // Changed from number to string
+  destination?: string | null; // Changed from number to string
   onRouteInfoUpdate?: (routeInfo: RouteInfo | null) => void;
 }
 
@@ -67,12 +67,12 @@ export default function RoutingControl({
       }
       originPoint = userLocation;
     } else {
-      const originSchool = schools.find((s) => s.id === origin);
+      const originSchool = schools.find((s) => s.uuid === origin);
       if (!originSchool) return;
       originPoint = L.latLng(originSchool.lat, originSchool.lng);
     }
 
-    const destinationSchool = schools.find((s) => s.id === destination);
+    const destinationSchool = schools.find((s) => s.uuid === destination);
     if (!destinationSchool) return;
     const destinationPoint = L.latLng(
       destinationSchool.lat,

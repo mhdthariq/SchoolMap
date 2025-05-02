@@ -11,15 +11,15 @@ import {
 import { IoClose } from "react-icons/io5";
 import L from "leaflet";
 import { RouteInfo } from "./RoutingControl";
-import RouteInformationPanel from './RouteInformationPanel';
+import RouteInformationPanel from "./RouteInformationPanel";
 
 interface RoutingSidebarProps {
   schools: Sekolah[];
   userLocation: L.LatLng | null;
   onClose: () => void;
   onCreateRoute: (
-    origin: "user" | number | null,
-    destination: number | null
+    origin: "user" | string | null,
+    destination: string | null
   ) => void;
   onClearRoute: () => void;
   routeInfo?: RouteInfo | null;
@@ -33,10 +33,10 @@ export default function RoutingSidebar({
   onClearRoute,
   routeInfo,
 }: RoutingSidebarProps) {
-  const [selectedOrigin, setSelectedOrigin] = useState<"user" | number | null>(
+  const [selectedOrigin, setSelectedOrigin] = useState<"user" | string | null>(
     null
   );
-  const [selectedDestination, setSelectedDestination] = useState<number | null>(
+  const [selectedDestination, setSelectedDestination] = useState<string | null>(
     null
   );
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -119,7 +119,7 @@ export default function RoutingSidebar({
   const getOriginName = () => {
     if (selectedOrigin === "user") return "My Current Location";
     if (selectedOrigin) {
-      const school = schools.find((s) => s.id === selectedOrigin);
+      const school = schools.find((s) => s.uuid === selectedOrigin);
       return school ? school.nama : "";
     }
     return "";
@@ -127,7 +127,7 @@ export default function RoutingSidebar({
 
   const getDestinationName = () => {
     if (selectedDestination) {
-      const school = schools.find((s) => s.id === selectedDestination);
+      const school = schools.find((s) => s.uuid === selectedDestination);
       return school ? school.nama : "";
     }
     return "";
@@ -235,7 +235,7 @@ export default function RoutingSidebar({
                 ? ""
                 : selectedOrigin === "user"
                 ? "user"
-                : selectedOrigin.toString()
+                : selectedOrigin
             }
             onChange={(e) => {
               const value = e.target.value;
@@ -244,7 +244,7 @@ export default function RoutingSidebar({
               } else if (value === "refresh") {
                 handleRefreshLocation();
               } else if (value) {
-                setSelectedOrigin(parseInt(value));
+                setSelectedOrigin(value);
               } else {
                 setSelectedOrigin(null);
               }
@@ -266,7 +266,7 @@ export default function RoutingSidebar({
             )}
             <optgroup label="Schools">
               {schools.map((school) => (
-                <option key={`origin-${school.id}`} value={school.id}>
+                <option key={`origin-${school.uuid}`} value={school.uuid}>
                   {school.nama}
                 </option>
               ))}
@@ -282,13 +282,11 @@ export default function RoutingSidebar({
           </label>
           <select
             className="w-full p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-neutral-800 text-sm"
-            value={
-              selectedDestination === null ? "" : selectedDestination.toString()
-            }
+            value={selectedDestination === null ? "" : selectedDestination}
             onChange={(e) => {
               const value = e.target.value;
               if (value) {
-                setSelectedDestination(parseInt(value));
+                setSelectedDestination(value);
               } else {
                 setSelectedDestination(null);
               }
@@ -296,7 +294,7 @@ export default function RoutingSidebar({
           >
             <option value="">Choose destination...</option>
             {schools.map((school) => (
-              <option key={`dest-${school.id}`} value={school.id}>
+              <option key={`dest-${school.uuid}`} value={school.uuid}>
                 {school.nama}
               </option>
             ))}
@@ -334,14 +332,27 @@ export default function RoutingSidebar({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   <FaRoute className="w-4 h-4 text-indigo-200" />
-                  <span className="text-sm">{(routeInfo.distance / 1000).toFixed(1)} km</span>
+                  <span className="text-sm">
+                    {(routeInfo.distance / 1000).toFixed(1)} km
+                  </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-indigo-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 h-4 text-indigo-200"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <circle cx="12" cy="12" r="10"></circle>
                     <polyline points="12 6 12 12 16 14"></polyline>
                   </svg>
-                  <span className="text-sm">{Math.round(routeInfo.duration / 60)} min</span>
+                  <span className="text-sm">
+                    {Math.round(routeInfo.duration / 60)} min
+                  </span>
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 export type Sekolah = {
-  id: number;
+  uuid: string; // Changed from id: number
   nama: string;
   npsn: string;
   alamat: string;
@@ -13,17 +13,17 @@ export type Sekolah = {
 };
 
 export const SCHOOL_COLORS = {
-  'SD': {
+  SD: {
     base: "bg-blue-600",
     light: "bg-blue-500/20 text-blue-300",
     number: "text-blue-400",
   },
-  'SMP': {
+  SMP: {
     base: "bg-emerald-600",
     light: "bg-emerald-500/20 text-emerald-300",
     number: "text-emerald-400",
   },
-  'SMA': {
+  SMA: {
     base: "bg-purple-600",
     light: "bg-purple-500/20 text-purple-300",
     number: "text-purple-400",
@@ -31,10 +31,10 @@ export const SCHOOL_COLORS = {
 } as const;
 
 export const AKREDITASI_COLORS = {
-  A: "from-green-600 to-emerald-500",     // Excellent - green shades
-  B: "from-yellow-500 to-amber-400",      // Good - yellow/amber
-  C: "from-orange-500 to-red-400",        // Fair - orange to red
-  NA: "from-gray-400 to-gray-600",        // Not Accredited - neutral gray
+  A: "from-green-600 to-emerald-500", // Excellent - green shades
+  B: "from-yellow-500 to-amber-400", // Good - yellow/amber
+  C: "from-orange-500 to-red-400", // Fair - orange to red
+  NA: "from-gray-400 to-gray-600", // Not Accredited - neutral gray
 };
 
 export const getSchoolColor = (type: string) => {
@@ -42,5 +42,8 @@ export const getSchoolColor = (type: string) => {
 };
 
 export const getAkreditasiGradient = (akreditasi: string) => {
-  return AKREDITASI_COLORS[akreditasi as keyof typeof AKREDITASI_COLORS] || "from-gray-500 to-gray-600";
+  return (
+    AKREDITASI_COLORS[akreditasi as keyof typeof AKREDITASI_COLORS] ||
+    "from-gray-500 to-gray-600"
+  );
 };

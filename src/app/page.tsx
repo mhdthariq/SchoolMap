@@ -10,7 +10,8 @@ import { RouteInfo } from "@/components/map/RoutingControl";
 
 // Import LocationProvider dynamically to avoid SSR issues
 const DynamicLocationProvider = dynamic(
-  () => import("@/contexts/LocationContext").then((mod) => mod.LocationProvider),
+  () =>
+    import("@/contexts/LocationContext").then((mod) => mod.LocationProvider),
   { ssr: false }
 );
 
@@ -33,9 +34,11 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [showSidebar, setShowSidebar] = useState(false);
   const [userLocation, setUserLocation] = useState<L.LatLng | null>(null);
-  const [activeTab, setActiveTab] = useState<'statistics' | 'routing'>('statistics');
-  const [routeOrigin, setRouteOrigin] = useState<'user' | number | null>(null);
-  const [routeDestination, setRouteDestination] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<"statistics" | "routing">(
+    "statistics"
+  );
+  const [routeOrigin, setRouteOrigin] = useState<"user" | string | null>(null);
+  const [routeDestination, setRouteDestination] = useState<string | null>(null);
   const [routeInfo, setRouteInfo] = useState<RouteInfo | null>(null);
 
   // Add data fetching
@@ -63,10 +66,13 @@ export default function HomePage() {
   }, []);
 
   // Handle route creation
-  const handleCreateRoute = useCallback((origin: 'user' | number | null, destination: number | null) => {
-    setRouteOrigin(origin);
-    setRouteDestination(destination);
-  }, []);
+  const handleCreateRoute = useCallback(
+    (origin: "user" | string | null, destination: string | null) => {
+      setRouteOrigin(origin);
+      setRouteDestination(destination);
+    },
+    []
+  );
 
   // Handle route clearing
   const handleClearRoute = useCallback(() => {
@@ -81,7 +87,7 @@ export default function HomePage() {
   }, []);
 
   // Handle opening the sidebar with the specified tab
-  const openSidebar = (tab: 'statistics' | 'routing') => {
+  const openSidebar = (tab: "statistics" | "routing") => {
     setActiveTab(tab);
     setShowSidebar(true);
   };
@@ -90,18 +96,22 @@ export default function HomePage() {
     <DynamicLocationProvider>
       <main className="h-screen w-screen overflow-hidden relative bg-neutral-950">
         {/* Medium-sized floating buttons with increased spacing */}
-        <div className={`fixed top-4 right-4 z-50 flex flex-col gap-3 transition-all duration-300 ${showSidebar ? "-translate-x-64" : "translate-x-0"}`}>
+        <div
+          className={`fixed top-4 right-4 z-50 flex flex-col gap-3 transition-all duration-300 ${
+            showSidebar ? "-translate-x-64" : "translate-x-0"
+          }`}
+        >
           <button
-            onClick={() => openSidebar('statistics')}
+            onClick={() => openSidebar("statistics")}
             className="bg-white/90 backdrop-blur-md p-3 rounded-lg shadow-lg border border-neutral-200 transition-all duration-300 
               hover:bg-white hover:shadow-xl flex items-center justify-center w-10 h-10"
             aria-label="School Statistics"
           >
             <FaChartBar className="w-5 h-5 text-neutral-900" />
           </button>
-          
+
           <button
-            onClick={() => openSidebar('routing')}
+            onClick={() => openSidebar("routing")}
             className="bg-white/90 backdrop-blur-md p-3 rounded-lg shadow-lg border border-neutral-200 transition-all duration-300 
               hover:bg-white hover:shadow-xl flex items-center justify-center w-10 h-10"
             aria-label="Routing Control"
@@ -123,8 +133,8 @@ export default function HomePage() {
         />
 
         <div className="absolute inset-0">
-          <Map 
-            data={sekolahData} 
+          <Map
+            data={sekolahData}
             onMapReady={handleMapReady}
             onUserLocationUpdate={handleUserLocationUpdate}
             routeOrigin={routeOrigin}

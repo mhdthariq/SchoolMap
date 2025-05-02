@@ -1,16 +1,20 @@
-import { useState } from 'react';
-import { Sekolah } from '@/types/school';
-import { FiSearch } from 'react-icons/fi';
-import { IoClose } from 'react-icons/io5';
+import { useState } from "react";
+import { Sekolah } from "@/types/school";
+import { FiSearch } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
 
 interface SchoolSearchProps {
   data: Sekolah[];
   onSchoolSelect: (school: Sekolah) => void;
-  onSearchReset: () => void;  // Add this prop
+  onSearchReset: () => void; // Add this prop
 }
 
-export default function SchoolSearch({ data, onSchoolSelect, onSearchReset }: SchoolSearchProps) {
-  const [searchQuery, setSearchQuery] = useState('');
+export default function SchoolSearch({
+  data,
+  onSchoolSelect,
+  onSearchReset,
+}: SchoolSearchProps) {
+  const [searchQuery, setSearchQuery] = useState("");
   const [filteredSchools, setFilteredSchools] = useState<Sekolah[]>([]);
   const [showResults, setShowResults] = useState(false);
 
@@ -18,9 +22,10 @@ export default function SchoolSearch({ data, onSchoolSelect, onSearchReset }: Sc
     try {
       setSearchQuery(query);
       if (query.length > 0) {
-        const filtered = data.filter(school => 
-          school.nama.toLowerCase().includes(query.toLowerCase()) ||
-          school.alamat.toLowerCase().includes(query.toLowerCase())
+        const filtered = data.filter(
+          (school) =>
+            school.nama.toLowerCase().includes(query.toLowerCase()) ||
+            school.alamat.toLowerCase().includes(query.toLowerCase())
         );
         setFilteredSchools(filtered);
         setShowResults(true);
@@ -30,7 +35,7 @@ export default function SchoolSearch({ data, onSchoolSelect, onSearchReset }: Sc
         onSearchReset();
       }
     } catch (error) {
-      console.error('Error during search:', error);
+      console.error("Error during search:", error);
       setFilteredSchools([]);
       setShowResults(false);
     }
@@ -58,7 +63,7 @@ export default function SchoolSearch({ data, onSchoolSelect, onSearchReset }: Sc
           />
           {searchQuery && (
             <button
-              onClick={() => handleSearch('')}
+              onClick={() => handleSearch("")}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 
                 transition-colors p-1 rounded-full hover:bg-neutral-100"
             >
@@ -67,16 +72,20 @@ export default function SchoolSearch({ data, onSchoolSelect, onSearchReset }: Sc
           )}
         </div>
         {showResults && filteredSchools.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-md rounded-2xl 
+          <div
+            className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-md rounded-2xl 
             shadow-lg border border-neutral-200/80 max-h-[320px] overflow-y-auto divide-y divide-neutral-100
-            animate-in fade-in slide-in-from-top-2 duration-200">
-            {filteredSchools.map(school => (
+            animate-in fade-in slide-in-from-top-2 duration-200"
+          >
+            {filteredSchools.map((school) => (
               <button
-                key={school.id}
+                key={school.uuid} // Changed from school.id
                 onClick={() => handleSchoolSelect(school)}
                 className="w-full px-5 py-3.5 text-left hover:bg-blue-50/50 transition-colors group"
               >
-                <div className="font-medium text-[15px] text-neutral-800 group-hover:text-blue-700">{school.nama}</div>
+                <div className="font-medium text-[15px] text-neutral-800 group-hover:text-blue-700">
+                  {school.nama}
+                </div>
                 <div className="text-sm text-neutral-500 group-hover:text-neutral-600 truncate mt-1 flex items-center gap-2">
                   <FiSearch className="w-3.5 h-3.5 text-neutral-400" />
                   {school.alamat}

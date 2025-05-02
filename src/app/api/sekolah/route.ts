@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
 
 type SchoolRecord = {
-  id: number;
+  uuid: string;
   nama: string;
   npsn: string;
   alamat: string;
@@ -19,7 +19,7 @@ export async function GET() {
   try {
     const result = await pool.query<SchoolRecord>(`
       SELECT 
-        id, nama, npsn, alamat, status, bentuk_pendidikan, akreditasi,
+        uuid, nama, npsn, alamat, status, bentuk_pendidikan, akreditasi,
         jumlah_guru, jumlah_murid,
         ST_X(geometri) AS lng,
         ST_Y(geometri) AS lat
