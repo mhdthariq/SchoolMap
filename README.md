@@ -44,7 +44,7 @@ A comprehensive web application for visualizing and interacting with school data
 
 ### Prerequisites
 
-- Node.js 18.0 or later
+- Node.js 18.0 or later, or Bun 1.0 or later
 - PostgreSQL with PostGIS extension
 - A database with school data in the required format (see below)
 
@@ -73,6 +73,8 @@ npm install
 yarn install
 # or
 pnpm install
+# or
+bun install
 ```
 
 3. Start the development server:
@@ -83,6 +85,8 @@ npm run dev
 yarn dev
 # or
 pnpm dev
+# or
+bun dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
