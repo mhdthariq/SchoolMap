@@ -2,8 +2,6 @@
 
 A comprehensive web application for visualizing and interacting with school data on a map. This application allows users to view school locations, access detailed information about each school, get directions to schools, and analyze school distribution statistics across different administrative areas.
 
-![School Map App Screenshot](public/logo.svg)
-
 ## Features
 
 - **Interactive School Map**: View all schools on a dynamic, interactive map with custom markers for different school types (SD, SMP, SMA)
@@ -63,8 +61,8 @@ DATABASE_URL=postgresql://username:password@localhost:5432/school_map_db
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/school-map-app.git
-cd school-map-app
+git clone https://github.com/mhdthariq/SchoolMap.git
+cd SchoolMap
 ```
 
 2. Install dependencies:
@@ -95,6 +93,33 @@ The application expects the following tables in your PostgreSQL database:
 
 1. `sekolah` - Contains school information
 2. `kelurahan` - Contains administrative area information
+
+## Documentation
+
+Comprehensive documentation is available in the `docs` directory:
+
+- [Documentation Home](./docs/README.md)
+
+### Feature Documentation
+
+- [Maps and Points](./docs/features/maps-and-points.md) - How to display school points
+- [Polygons](./docs/features/polygons.md) - How to display administrative area polygons
+
+### Developer Documentation
+
+- [Components Overview](./docs/development/components.md) - Understanding the component structure
+- [Data Flow](./docs/development/data-flow.md) - How data moves through the application
+- [Database Setup](./docs/development/database-setup.md) - Setting up the database
+- [TypeScript Types](./docs/development/typescript-types.md) - TypeScript type system
+- [Implementing Features](./docs/development/implementing-features.md) - Feature implementation patterns
+
+### API Documentation
+
+- [API Overview](./docs/api/overview.md) - Overview of the API endpoints
+- [School API](./docs/api/endpoints/sekolah.md) - School data API
+- [Administrative Areas API](./docs/api/endpoints/kelurahan.md) - Geographic boundaries API
+- [Statistics API](./docs/api/endpoints/kelurahan-stats.md) - School statistics API
+- [Location API](./docs/api/endpoints/location.md) - User location API
 
 ## Contributing
 
