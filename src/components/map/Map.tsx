@@ -95,15 +95,31 @@ const destinationIcon = L.icon({
   shadowSize: [41, 41],
 } as any);
 
-// Add MapController component to handle map reference
-function MapController({ map }: { map: L.Map | null }) {
+// Add MapController component to handle map reference and initial position
+interface MapControllerProps {
+  map: L.Map | null;
+  initialPosition: [number, number] | null;
+  zoomLevel?: number;
+}
+
+function MapController({
+  map,
+  initialPosition,
+  zoomLevel = 16,
+}: MapControllerProps) {
   const leafletMap = useMap();
 
   useEffect(() => {
+    // Set default view if there's no map reference
     if (map === null) {
-      leafletMap.setView([3.5952, 98.6722], 13);
+      // Use initialPosition if provided, otherwise use default center
+      if (initialPosition) {
+        leafletMap.setView(initialPosition, zoomLevel);
+      } else {
+        leafletMap.setView([3.5952, 98.6722], 13);
+      }
     }
-  }, [map, leafletMap]);
+  }, [map, leafletMap, initialPosition, zoomLevel]);
 
   return null;
 }
@@ -118,6 +134,9 @@ interface MapProps {
   // Add new prop for filtering
   schoolTypeFilter: string | null;
   kelurahanFilter?: number | null;
+  // Add new props for direct school focusing from URL
+  initialPosition?: [number, number] | null;
+  selectedSchoolId?: string | null;
 }
 
 export default function Map({
@@ -129,6 +148,8 @@ export default function Map({
   onRouteInfoUpdate,
   schoolTypeFilter,
   kelurahanFilter,
+  initialPosition,
+  selectedSchoolId,
 }: MapProps) {
   // Use type assertion for MapLayerType to fix the useState type issue
   const [mapLayer, setMapLayer] = useState<keyof typeof MAP_LAYERS>("osm");
@@ -143,6 +164,17 @@ export default function Map({
   const filteredSchools = schoolTypeFilter
     ? data.filter((school) => school.bentuk_pendidikan === schoolTypeFilter)
     : data;
+  // Handle focusing on a school passed through URL
+  useEffect(() => {
+    if (selectedSchoolId && data.length > 0) {
+      // Find the selected school by ID
+      const school = data.find((s) => s.uuid === selectedSchoolId);
+      if (school) {
+        // Focus on this school
+        setSelectedSchool(school);
+      }
+    }
+  }, [data, selectedSchoolId]);
 
   useEffect(() => {
     // Initialize leaflet
@@ -249,8 +281,7 @@ export default function Map({
       <LayerSwitcher
         currentLayer={mapLayer}
         onLayerChange={(layer: keyof typeof MAP_LAYERS) => setMapLayer(layer)}
-      />
-
+      />{" "}
       <MapContainer
         center={defaultCenter}
         zoom={13}
@@ -265,7 +296,14 @@ export default function Map({
           mapRef.current = map || null;
         }}
       >
-        <MapController map={mapRef.current} />
+        <MapController
+          map={mapRef.current}
+          initialPosition={
+            initialPosition ||
+            (selectedSchool ? [selectedSchool.lat, selectedSchool.lng] : null)
+          }
+          zoomLevel={16}
+        />
 
         {/* @ts-ignore - Ignore TypeScript errors for TileLayer props */}
         <TileLayer
@@ -311,7 +349,6 @@ export default function Map({
           </Marker>
         )}
       </MapContainer>
-
       {/* Add styling to fix z-index issues with routing containers */}
       <style jsx global>{`
         .leaflet-routing-container {

@@ -10,6 +10,8 @@
     "postinstall": "cpx \"node_modules/leaflet/dist/images/*\" public/leaflet"
   },
   "dependencies": {
+    "@types/typed.js": "^2.0.9",
+    "aos": "^2.3.4",
     "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
     "next": "15.2.5",
@@ -17,7 +19,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "typed.js": "^2.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
