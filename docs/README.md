@@ -18,6 +18,7 @@ Welcome to the documentation for the School Map App. This documentation is desig
 ### Development
 
 - [Components Overview](./development/components.md): Understanding the component structure
+- [UI Components](./development/ui-components.md): UI design documentation (favicon, filters, styling)
 - [Data Flow](./development/data-flow.md): How data moves through the application
 - [Database Setup](./development/database-setup.md): Guide for setting up the PostgreSQL database
 - [TypeScript Types](./development/typescript-types.md): Overview of TypeScript types
