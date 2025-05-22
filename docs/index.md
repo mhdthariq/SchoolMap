@@ -18,6 +18,7 @@ If you're new to the project, start with these resources:
 
 - [Development Documentation](./development/README.md) - Technical details for developers
 - [Components Overview](./development/components.md) - Component structure and relationships
+- [UI Components](./development/ui-components.md) - UI design documentation (favicon, filters, styling)
 - [Data Flow](./development/data-flow.md) - How data moves through the application
 
 ## API Reference
@@ -37,6 +38,7 @@ docs/
 ├── development/          # Developer-focused documentation
 │   ├── README.md         # Development documentation index
 │   ├── components.md     # Component structure details
+│   ├── ui-components.md  # UI design documentation
 │   └── data-flow.md      # Data flow explanation
 └── api/                  # API documentation
     ├── README.md         # API documentation index

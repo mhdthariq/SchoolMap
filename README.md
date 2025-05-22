@@ -112,6 +112,7 @@ Comprehensive documentation is available in the `docs` directory:
 ### Developer Documentation
 
 - [Components Overview](./docs/development/components.md) - Understanding the component structure
+- [UI Components](./docs/development/ui-components.md) - UI design documentation (favicon, filters, styling)
 - [Data Flow](./docs/development/data-flow.md) - How data moves through the application
 - [Database Setup](./docs/development/database-setup.md) - Setting up the database
 - [TypeScript Types](./docs/development/typescript-types.md) - TypeScript type system

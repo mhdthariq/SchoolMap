@@ -122,8 +122,8 @@ const FeaturedSchoolsSection = () => {
               onClick={() => setSelectedType("ALL")}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedType === "ALL"
-                  ? "bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg shadow-indigo-200"
-                  : "bg-white text-gray-700 hover:bg-gray-50 hover:text-indigo-700 shadow-md border border-gray-100"
+                  ? "bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-lg shadow-indigo-200/50"
+                  : "bg-white text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 shadow hover:shadow-indigo-100 border border-gray-100"
               }`}
             >
               Semua
@@ -132,8 +132,8 @@ const FeaturedSchoolsSection = () => {
               onClick={() => setSelectedType("SD")}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedType === "SD"
-                  ? "bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg shadow-indigo-200"
-                  : "bg-white text-gray-700 hover:bg-gray-50 hover:text-indigo-700 shadow-md border border-gray-100"
+                  ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg shadow-green-200/50"
+                  : "bg-white text-gray-700 hover:bg-green-50 hover:text-green-700 shadow hover:shadow-green-100 border border-gray-100"
               }`}
             >
               SD
@@ -142,8 +142,8 @@ const FeaturedSchoolsSection = () => {
               onClick={() => setSelectedType("SMP")}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedType === "SMP"
-                  ? "bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg shadow-indigo-200"
-                  : "bg-white text-gray-700 hover:bg-gray-50 hover:text-indigo-700 shadow-md border border-gray-100"
+                  ? "bg-gradient-to-r from-blue-500 to-sky-500 text-white shadow-lg shadow-blue-200/50"
+                  : "bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-700 shadow hover:shadow-blue-100 border border-gray-100"
               }`}
             >
               SMP
@@ -152,8 +152,8 @@ const FeaturedSchoolsSection = () => {
               onClick={() => setSelectedType("SMA")}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedType === "SMA"
-                  ? "bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg shadow-indigo-200"
-                  : "bg-white text-gray-700 hover:bg-gray-50 hover:text-indigo-700 shadow-md border border-gray-100"
+                  ? "bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-lg shadow-indigo-200/50"
+                  : "bg-white text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 shadow hover:shadow-indigo-100 border border-gray-100"
               }`}
             >
               SMA

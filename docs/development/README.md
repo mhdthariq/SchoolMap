@@ -5,6 +5,7 @@ This section provides technical documentation for developers who want to underst
 ## Contents
 
 - [Components Overview](./components.md): Detailed explanation of the component structure
+- [UI Components](./ui-components.md): Detailed documentation of UI design and components
 - [Data Flow](./data-flow.md): How data flows through the application
 - [Database Setup](./database-setup.md): Guide for setting up the PostgreSQL database
 - [TypeScript Types](./typescript-types.md): Overview of TypeScript types used in the project

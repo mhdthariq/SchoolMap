@@ -25,6 +25,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/bun": "latest",
     "@types/leaflet": "^1.9.17",
     "@types/node": "^20",
     "@types/pg": "^8.11.11",
@@ -33,8 +34,8 @@
     "cpx": "^1.5.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.5",
+    "sharp": "^0.34.2",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "@types/bun": "latest"
+    "typescript": "^5"
   }
 }
