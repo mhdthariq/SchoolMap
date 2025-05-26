@@ -25,7 +25,8 @@ const teamMembers: TeamMember[] = [
     image: "/dashboard/team/jelita.jpg",
     bio: "Mahasiswa dengan keahlian dalam analisis data dan visualisasi informasi.",
     links: {
-      linkedin: "https://linkedin.com/",
+      linkedin:
+        "https://www.linkedin.com/in/grace-putri-jelita-waruwu-b26131367?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BLzzBSxaQQQiz76IV0ZcixQ%3D%3D",
       github: "https://github.com/gracejelitaa",
       email: "mailto:waruwugraceputrijelita@gmail.com",
     },

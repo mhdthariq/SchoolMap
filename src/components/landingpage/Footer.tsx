@@ -28,7 +28,7 @@ const Footer = () => {
                 <FaGithub size={20} />
               </a>
               <a
-                href="mailto:info@edumap.com"
+                href="mailto:mthariqaryaputra1@gmail.com"
                 className="text-blue-300 hover:text-white transition-colors"
               >
                 <FaEnvelope size={20} />
