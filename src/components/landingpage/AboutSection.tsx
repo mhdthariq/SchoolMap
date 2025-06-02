@@ -47,8 +47,7 @@ const AboutSection = () => {
               </p>{" "}
               <p className="mb-4 text-gray-700 leading-relaxed">
                 Melalui platform ini, kami menyajikan peta lokasi sekolah,
-                jenjang pendidikan, hingga informasi terkait fasilitas, program
-                unggulan, dan aksesibilitas masing-masing sekolah.
+                jenjang pendidikan, dan aksesibilitas masing-masing sekolah.
               </p>
               <p className="mb-4 text-gray-700 leading-relaxed">
                 Dengan desain yang modern, user-friendly, dan responsif, kami
