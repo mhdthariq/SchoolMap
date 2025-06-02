@@ -48,12 +48,31 @@ body {
   }
 }
 
+@keyframes float-slow {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-15px) translateX(15px) rotate(5deg);
+  }
+  66% {
+    transform: translateY(10px) translateX(-10px) rotate(-5deg);
+  }
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
 .animate-float-delayed {
   animation: float-delayed 8s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 12s ease-in-out infinite;
 }
 
 /* Card hover effects */
@@ -81,4 +100,26 @@ body {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Counter animation effect */
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.counter-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-count-up {
+  display: inline-block;
+  animation: count-up 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
 }
