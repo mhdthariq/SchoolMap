@@ -14,7 +14,7 @@
     "aos": "^2.3.4",
     "leaflet": "^1.9.4",
     "leaflet-routing-machine": "^3.2.12",
-    "next": "15.2.5",
+    "next": "15.2.8",
     "pg": "^8.14.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
