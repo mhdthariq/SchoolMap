@@ -57,8 +57,8 @@ const AboutSection = () => {
               </p>
               <div className="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl">
                 <p className="font-semibold text-indigo-800 text-xl leading-relaxed italic">
-                  "Karena pendidikan yang berkualitas berawal dari akses
-                  informasi yang tepat."
+                  &quot;Karena pendidikan yang berkualitas berawal dari akses
+                  informasi yang tepat.&quot;
                 </p>
               </div>
               <div className="mt-8 flex flex-wrap gap-4">

@@ -1,4 +1,3 @@
-/* eslint spellcheck/disable: Sekolah sekolah alamat jumlah murid guru bentuk pendidikan */
 import { useRef, useState, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";

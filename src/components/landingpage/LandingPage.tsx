@@ -11,15 +11,20 @@ const LandingPage = () => {
   // Initialize AOS (Animate On Scroll) when component mounts
   useEffect(() => {
     // Import AOS dynamically to avoid SSR issues
-    const AOS = require("aos");
-    AOS.init({
-      duration: 800,
-      once: true,
+    import("aos").then((module) => {
+      const AOS = module.default || module;
+      AOS.init({
+        duration: 800,
+        once: true,
+      });
     });
 
     // Clean up AOS when component unmounts
     return () => {
-      AOS.refresh();
+      import("aos").then((module) => {
+        const AOS = module.default || module;
+        AOS.refresh();
+      });
     };
   }, []);
   return (

@@ -66,7 +66,7 @@ declare module "leaflet" {
       getPlan(): any;
       getRouter(): any;
       route(): void;
-      on(event: string, fn: Function): this;
+      on(event: string, fn: (...args: any[]) => void): this;
       off(event: string): this;
     }
 

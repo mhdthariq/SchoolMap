@@ -13,7 +13,7 @@ declare module "leaflet" {
   // Fix for 'no exported member Map'
   export interface Map {
     locate(options: any): void;
-    on(eventName: string, handler: Function): void;
+    on(eventName: string, handler: (...args: any[]) => void): void;
     off(eventName: string): void;
     setView(center: LatLng | [number, number], zoom: number): this;
     removeControl(control: Control): this;
@@ -23,7 +23,7 @@ declare module "leaflet" {
   namespace Routing {
     interface Control extends L.Control {
       addTo(map: L.Map): this;
-      on(event: string, callback: Function): this;
+      on(event: string, callback: (...args: any[]) => void): this;
     }
   }
 

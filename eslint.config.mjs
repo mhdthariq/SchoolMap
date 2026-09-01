@@ -30,8 +30,10 @@ const eslintConfig = [
       "@typescript-eslint/no-this-alias": "off", // Allow this aliasing
       "@typescript-eslint/no-misused-promises": "off", // Allow promises in unsupported positions
     },
-    parserOptions: {
-      project: "./tsconfig.json",
+    languageOptions: {
+      parserOptions: {
+        project: "./tsconfig.json",
+      },
     },
   },
   // Add a more comprehensive override for files using Leaflet
@@ -71,36 +73,6 @@ const eslintConfig = [
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-var-requires": "off",
       "no-undef": "off",
-    },
-  },
-  // Turn off spelling suggestions for non-English words
-  {
-    files: ["**/*.ts", "**/*.tsx"],
-    ignores: ["**/*.test.ts", "**/*.test.tsx"],
-    languageOptions: {
-      spellcheck: {
-        // Ignore non-English words used in your domain
-        words: [
-          "Sekolah",
-          "sekolah",
-          "npsn",
-          "alamat",
-          "bentuk",
-          "pendidikan",
-          "akreditasi",
-          "jumlah",
-          "murid",
-          "guru",
-          "latlng",
-          "Denai",
-          "leaflet",
-          "locationfound",
-          "locationerror",
-          "popupclose",
-          "routesfound",
-          "geometri",
-        ],
-      },
     },
   },
 ];
